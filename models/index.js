@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import params from '../src/app/configs/params';
+import params from '../src/configs/params';
 
 const sequelize = new Sequelize(
     params.database,
@@ -12,8 +12,8 @@ const sequelize = new Sequelize(
 );
 
 const models = {
-  User: sequelize.import('./user'),
-  Firm: sequelize.import('./firm')
+    User: sequelize.import('./user'),
+    Firm: sequelize.import('./firm')
 };
 
 Object.keys(models).forEach((modelName) => {

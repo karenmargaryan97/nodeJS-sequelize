@@ -4,7 +4,7 @@ import {BadRequest} from "../errors";
 
 export default class Utils {
     static signJWTToken(data) {
-        const payload = { email: data.email, fullName: data.fullName };
+        const payload = { email: data.email, firstName: data.firstName };
 
         const token = jwt.sign(payload, params.tokenSecret);
 

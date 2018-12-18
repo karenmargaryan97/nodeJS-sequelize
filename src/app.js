@@ -1,12 +1,16 @@
 import express from 'express';
 import logger from 'morgan';
 import { json, urlencoded } from 'body-parser';
+import expressValidator from 'express-validator';
 import cors from 'cors';
 import limiter from './configs/limiter';
 import RateLimit from 'express-rate-limit';
 import { ServiceUnavailable } from "./errors";
+import passport from 'passport';
+import configPassport from './strategies/passport-jwt';
 import { BAD_REQUEST_CODE } from "./configs/status-codes";
 import enableModules from './modules';
+import params from './configs/params';
 
 class Application {
     app;
@@ -22,7 +26,7 @@ class Application {
         this.setRouter();
         this.setErrorHandler();
         this.enableModules();
-        this.createLimiter();
+        this.configPassport();
     }
 
     configApp() {
@@ -33,6 +37,14 @@ class Application {
         this.app.use(cors())
             .use(json())
             .use(urlencoded({ extended: true }))
+            .use(expressValidator())
+            .use(this.createLimiter())
+    }
+
+    configPassport() {
+        configPassport(params.tokenSecret, passport);
+        this.app.use(passport.initialize())
+            .use(passport.session());
     }
 
     setParams() {
