@@ -3,17 +3,19 @@ import params from '../configs/params';
 import {BadRequest} from "../errors";
 
 export default class Utils {
-    static signJWTToken(data) {
-        const payload = { email: data.email, firstName: data.firstName };
+    static signJWTToken(data, admin = false) {
+        const payload = { email: data.email, createdAt: data.createdAt };
+        const secret = admin ? params.adminTokenSecret: params.tokenSecret;
 
-        const token = jwt.sign(payload, params.tokenSecret);
+        const token = jwt.sign(payload, secret);
 
         return { token };
     }
 
-    static verifyJWTToken(token) {
+    static verifyJWTToken(token, admin = false) {
+        const secret = admin ? params.adminTokenSecret: params.tokenSecret;
         try {
-            return jwt.verify(token, params.tokenSecret);
+            return jwt.verify(token, secret);
 
         } catch (e) {
             throw new BadRequest('Invalid token');

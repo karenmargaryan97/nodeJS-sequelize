@@ -7,11 +7,12 @@ const sequelize = new Sequelize(
     params.dbPassword,
     {
         dialect: 'postgres',
-        host: '127.0.0.1'
+        host: 'postgres'
     }
 );
 
 const models = {
+    Admin: sequelize.import('./admin'),
     User: sequelize.import('./user'),
     Firm: sequelize.import('./firm')
 };

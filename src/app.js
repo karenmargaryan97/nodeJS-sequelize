@@ -5,10 +5,10 @@ import expressValidator from 'express-validator';
 import cors from 'cors';
 import limiter from './configs/limiter';
 import RateLimit from 'express-rate-limit';
-import { ServiceUnavailable } from "./errors";
+import { ServiceUnavailable } from './errors';
 import passport from 'passport';
-import configPassport from './strategies/passport-jwt';
-import { BAD_REQUEST_CODE } from "./configs/status-codes";
+import { UserPassport, AdminPassport } from './strategies';
+import { BAD_REQUEST_CODE } from './configs/status-codes';
 import enableModules from './modules';
 import params from './configs/params';
 
@@ -42,7 +42,8 @@ class Application {
     }
 
     configPassport() {
-        configPassport(params.tokenSecret, passport);
+        UserPassport(params.tokenSecret, passport);
+        AdminPassport(params.adminTokenSecret, passport);
         this.app.use(passport.initialize())
             .use(passport.session());
     }

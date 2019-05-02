@@ -14,3 +14,4 @@ export const dbUsername = env.get('DB_USERNAME').asString();
 export const dbPassword = env.get('DB_PASSWORD').asString();
 
 export const tokenSecret = env.get('TOKEN_SECRET').asString();
+export const adminTokenSecret = env.get('ADMIN_TOKEN_SECRET').asString();

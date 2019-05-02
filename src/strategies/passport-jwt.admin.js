@@ -3,12 +3,12 @@ import { NOT_EXISTS } from '../configs/constants';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthError } from '../errors';
 
-export const UserPassport = (secret, passport) => {
+export const AdminPassport = (secret, passport) => {
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
     passport.deserializeUser(async (id, done) => {
-        let user = await models.User.findOne({
+        let user = await models.Admin.findOne({
             where: { id }
         });
         user ? done(null, user) : done(new AuthError(NOT_EXISTS), null);
@@ -20,7 +20,7 @@ export const UserPassport = (secret, passport) => {
     };
 
     let strategy = new Strategy (jwtOptions, async (payload, next) => {
-        let user = await models.User.findOne({
+        let user = await models.Admin.findOne({
             where: { id: payload.id }
         });
 
@@ -30,5 +30,5 @@ export const UserPassport = (secret, passport) => {
             next(new AuthError(NOT_EXISTS), false);
         }
     });
-    passport.use('user-rule', strategy);
+    passport.use('admin-rule', strategy);
 };

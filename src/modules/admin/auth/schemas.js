@@ -1,18 +1,12 @@
-import { INVALID, REQUIRED } from '../../configs/constants';
+import { INVALID, REQUIRED } from '../../../configs/constants';
 
 export default {
     signup: {
         validation: {
-            firstName: {
+            fullName: {
                 in: 'body',
                 notEmpty: {
-                    errorMessage: REQUIRED('First Name')
-                }
-            },
-            lastName: {
-                in: 'body',
-                notEmpty: {
-                    errorMessage: REQUIRED('Last Name')
+                    errorMessage: REQUIRED('Full Name')
                 }
             },
             email: {

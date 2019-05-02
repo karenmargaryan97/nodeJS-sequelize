@@ -2,6 +2,7 @@ import {
     apiUrl,
     apiPort,
     tokenSecret,
+    adminTokenSecret,
     dbUsername,
     dbPassword,
     database
@@ -12,6 +13,7 @@ const params = {
         apiUrl,
         apiPort,
         tokenSecret,
+        adminTokenSecret,
         dbUsername,
         dbPassword,
         database
@@ -20,6 +22,7 @@ const params = {
         apiUrl,
         apiPort,
         tokenSecret,
+        adminTokenSecret,
         dbUsername,
         dbPassword,
         database
