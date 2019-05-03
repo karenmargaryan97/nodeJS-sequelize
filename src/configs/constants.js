@@ -8,6 +8,8 @@ export const NOT_EXISTS = resource => `${resource} doesn't exist!`;
 export const INVALID_EMAIL_OR_PASSWORD = 'Invalid email or password';
 export const INVALID_CURRENT_PASSWORD = 'Your current password is wrong';
 export const SERVICE_UNAVAILABLE = 'Service is temporarily unavailable';
-export const BEARER_AUTH = 'bearer';
+
+export const ADMIN_AUTH = 'admin-rule';
+export const USER_AUTH = 'user-rule';
 
 

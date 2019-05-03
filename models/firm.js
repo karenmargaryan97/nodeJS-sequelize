@@ -7,6 +7,14 @@ export default (sequelize, DataTypes) => {
         entityNumber: {
             type: DataTypes.STRING,
             unique: true
+        },
+        logo: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        isDeleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     });
 };
