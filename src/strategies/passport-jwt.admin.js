@@ -11,6 +11,7 @@ export const AdminPassport = (secret, passport) => {
         let user = await models.Admin.findOne({
             where: { id }
         });
+        console.log(user);
         user ? done(null, user) : done(new AuthError(NOT_EXISTS), null);
     });
 

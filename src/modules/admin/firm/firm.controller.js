@@ -1,15 +1,12 @@
 import { FirmService } from '../../../services';
 import { SUCCESS_CODE } from '../../../configs/status-codes';
 import FileUtil from '../../../helpers/fileUtil';
-import { NotFound } from '../../../errors';
-import { NOT_EXISTS } from '../../../configs/constants';
 const fileType = require('file-type');
 const fs = require('fs');
 const util = require('util');
 
 export class FirmController {
     static async create(req, res, next) {
-        const payload = req.body;
         try {
             let firmName, entityNumber, logo;
             const parsedForm = await FileUtil.parseUploadForm(req);
@@ -41,18 +38,74 @@ export class FirmController {
         }
     }
 
+    static async edit(req, res, next) {
+        const { id } = req.params;
+        try {
+            const firm = await FirmService.getById(id);
+            let firmName, entityNumber, logo, data = {};
+            const parsedForm = await FileUtil.parseUploadForm(req);
+
+            const { files, fields } = parsedForm;
+
+            firmName = fields.firmName[0];
+            entityNumber = fields.entityNumber[0];
+            if (files.logo && files.logo.length) {
+                logo = files.logo[0];
+            }
+
+            data.firmName = firmName;
+            data.entityNumber = entityNumber;
+
+            if (logo) {
+                const readFile = util.promisify(fs.readFile);
+                const writeFile = util.promisify(fs.writeFile);
+                let buffer = await readFile(logo.path);
+
+                let logoName = `${firm.firmName}_${firm.entityNumber}.png`;
+                data.logo = logoName;
+                await writeFile(`$uploads/${logoName}`, buffer);
+            }
+
+            let updatedFirm = await FirmService.update(firm.id, data);
+
+            return res.status(SUCCESS_CODE).json(updatedFirm);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static async delete(req, res, next) {
+        const { id } = req.params;
+        try {
+            const firm = await FirmService.getById(id);
+
+            await FirmService.delete(firm.id);
+
+            return res.status(SUCCESS_CODE).json({ success: true });
+        } catch (e) {
+            next(e);
+        }
+    }
+
     static async getOne(req, res, next) {
         const { id } = req.params;
         try {
             const firm = await FirmService.getById(id);
 
-            if (!firm) {
-                throw new NotFound(NOT_EXISTS('Firm'));
-            }
-
             return res.status(SUCCESS_CODE).json(firm);
         } catch(err) {
             next(err);
+        }
+    }
+
+    static async getAll(req, res, next) {
+        const query = req.query;
+        try {
+            const firms = await FirmService.getAll(query);
+
+            return res.status(SUCCESS_CODE).json(firms);
+        } catch (e) {
+            next(e);
         }
     }
 }

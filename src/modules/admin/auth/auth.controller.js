@@ -36,7 +36,7 @@ export class AuthController {
         try {
             let admin = await AdminService.check(email, password);
 
-            const tokenInfo = await Utils.signJWTToken(admin);
+            const tokenInfo = await Utils.signJWTToken(admin, true);
 
             return res.status(SUCCESS_CODE).json({
                 access_token: tokenInfo.token,

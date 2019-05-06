@@ -11,6 +11,7 @@ import { UserPassport, AdminPassport } from './strategies';
 import { BAD_REQUEST_CODE } from './configs/status-codes';
 import enableModules from './modules';
 import params from './configs/params';
+import Utils from "./helpers/Utils";
 
 class Application {
     app;
