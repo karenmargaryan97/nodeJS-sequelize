@@ -1,6 +1,7 @@
 import { FirmService } from '../../../services';
 import { SUCCESS_CODE } from '../../../configs/status-codes';
 import FileUtil from '../../../helpers/fileUtil';
+import {BadRequest} from "../../../errors";
 const fileType = require('file-type');
 const fs = require('fs');
 const util = require('util');
@@ -12,10 +13,14 @@ export class FirmController {
             const parsedForm = await FileUtil.parseUploadForm(req);
             const { files, fields } = parsedForm;
 
-            firmName = fields.firmName[0];
-            entityNumber = fields.entityNumber[0];
-            logo = files.files[0];
-            
+            firmName = fields.firmName.length ? fields.firmName[0]: null;
+            entityNumber = fields.entityNumber.length ? fields.entityNumber[0]: null;
+            logo = files.files.length ? files.files[0]: null;
+
+            if (!firmName || !entityNumber || !logo) {
+                throw new BadRequest('Invalid form');
+            }
+
             const logoName = `${firmName}_${entityNumber}`;
             const firmData = {
                 firmName,

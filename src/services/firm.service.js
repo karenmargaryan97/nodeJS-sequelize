@@ -32,6 +32,6 @@ export class FirmService {
     }
 
     static async delete(id, force = false) {
-        return await models.Firm.destroy({ force });
+        return await models.Firm.destroy({ where: { id }, force });
     }
 }
