@@ -10,6 +10,8 @@ export class AuthController {
         try {
             let admin = await AdminService.getByEmail(payload.email);
 
+            console.log(admin);
+
             if (admin) {
                 throw new BadRequest('Email already used');
             } else {
@@ -22,6 +24,7 @@ export class AuthController {
                 token: tokenInfo.token,
                 admin: {
                     id: admin.id,
+                    role: admin.role,
                     fullName: admin.fullName,
                     email: admin.email
                 }
@@ -42,6 +45,7 @@ export class AuthController {
                 access_token: tokenInfo.token,
                 admin: {
                     id: admin.id,
+                    role: admin.role,
                     fullName: admin.fullName,
                     email: admin.email
                 }

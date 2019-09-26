@@ -26,6 +26,7 @@ export class AdminService {
         const data = {
             fullName: attributes.fullName,
             email: attributes.email,
+            role: attributes.role,
             password: attributes.password
         };
 

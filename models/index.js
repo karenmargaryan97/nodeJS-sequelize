@@ -14,10 +14,12 @@ const sequelize = new Sequelize(
 const models = {
     Admin: sequelize.import('./admin'),
     User: sequelize.import('./user'),
-    Firm: sequelize.import('./firm')
+    Firm: sequelize.import('./firm'),
+    Fund: sequelize.import('./fund')
 };
 
 Object.keys(models).forEach((modelName) => {
+    console.log(models);
     if ('associate' in models[modelName]) {
         models[modelName].associate(models);
     }

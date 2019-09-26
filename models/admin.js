@@ -11,6 +11,13 @@ export default (sequelize, DataTypes) => {
         },
         password: {
             type: DataTypes.STRING
+        },
+        role: {
+            type: DataTypes.ENUM([ 'SA', 'FA' ]),
+            allowNull: false,
+            validate: {
+                notNull: { message: "Role is required" },
+            },
         }
     });
 

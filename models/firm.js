@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-    return sequelize.define('firm', {
+    let Firm = sequelize.define('firms', {
         firmName: {
             type: DataTypes.STRING,
             unique: true
@@ -17,4 +17,13 @@ export default (sequelize, DataTypes) => {
             defaultValue: false
         }
     });
+
+    Firm.associate = (models) => {
+        Firm.hasMany(models.Fund, {
+            foreignKey: 'firm_id',
+            as: 'firm'
+        })
+    };
+
+    return Firm;
 };
