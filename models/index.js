@@ -1,31 +1,34 @@
-import Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize';
 import params from '../src/configs/params';
+import User from './user';
+import Admin from './admin';
+import Firm from './firm';
+import Fund from './fund';
 
-const sequelize = new Sequelize(
+const db = new Sequelize(
     params.database,
     params.dbUsername,
     params.dbPassword,
     {
         dialect: 'postgres',
-        host: 'postgres'
+        host: 'localhost'
     }
 );
 
 const models = {
-    Admin: sequelize.import('./admin'),
-    User: sequelize.import('./user'),
-    Firm: sequelize.import('./firm'),
-    Fund: sequelize.import('./fund')
+    Admin: db.import('./admin', Admin),
+    User: db.import('./user', User),
+    Firm: db.import('./firm', Firm),
+    Fund: db.import('./fund', Fund)
 };
 
 Object.keys(models).forEach((modelName) => {
-    console.log(models);
     if ('associate' in models[modelName]) {
         models[modelName].associate(models);
     }
 });
 
-models.sequelize = sequelize;
+models.sequelize = db;
 models.Sequelize = Sequelize;
 
 export default models;

@@ -8,6 +8,10 @@ const PID = process.pid;
 
 const server = http.createServer(App());
 
+process.on('SIGINT', () => {
+    db.sequelize.close().then(() => process.exit(0));
+});
+
 db.sequelize.sync({}).then(() => {
     server.listen(params.apiPort, () => {
         console.log(`Listening ${server.address().port} port. Process: ${PID}`);

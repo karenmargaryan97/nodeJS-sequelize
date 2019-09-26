@@ -55,8 +55,8 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
-    "env-var": "^4.0.0",
+    "dotenv": "8.1.0",
+    "env-var": "5.1.0",
     "express": "^4.16.4",
     "express-rate-limit": "^3.3.2",
     "express-validator": "^5.3.0",
@@ -64,20 +64,19 @@
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "pg": "^7.10.0",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^5.8.2",
+    "pg": "^7.12.1",
+    "pg-hstore": "2.3.3",
+    "sequelize": "5.19.0",
     "multiparty": "4.2.1",
-    "file-type": "10.11.0"
+    "file-type": "12.3.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.7"
+    "nodemon": "^1.19.2"
   },
   "nodemonConfig": {
     "watch": [
       "src"
     ],
-    "delay": "5000",
     "ext": "js",
     "ignore": [
       "node_modules"
