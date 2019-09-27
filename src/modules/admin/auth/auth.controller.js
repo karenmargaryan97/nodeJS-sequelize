@@ -1,16 +1,14 @@
 import { SUCCESS_CODE } from '../../../configs/status-codes';
 import { BadRequest } from '../../../errors';
 import Utils from '../../../helpers/Utils';
-import { AdminService } from '../../../services';
+import AdminService from '../../../services/admin.service';
 
 export class AuthController {
 
     static async signup(req, res, next) {
         const payload = req.body;
         try {
-            let admin = await AdminService.getByEmail(payload.email);
-
-            console.log(admin);
+            let admin = await AdminService.getOneByParams({ email: payload.email });
 
             if (admin) {
                 throw new BadRequest('Email already used');

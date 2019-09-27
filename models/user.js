@@ -21,10 +21,6 @@ export default (sequelize, DataTypes) => {
         return hashSync(pw, genSaltSync(8));
     };
 
-    User.prototype.setPassword = function (pw) {
-        this.password = hashSync(pw, genSaltSync(8));
-    };
-
     User.prototype.comparePassword = function (pw) {
         return this.password && compareSync(pw, this.password);
     };

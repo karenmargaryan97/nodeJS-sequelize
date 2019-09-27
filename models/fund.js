@@ -20,7 +20,9 @@ export default (sequelize, DataTypes) => {
 
     Fund.associate = (models) => {
         Fund.belongsTo(models.Firm, {
-            foreignKey: 'id',
+            foreignKey: 'firm_id',
+            targetKey: 'id',
+            as: 'firm'
         });
     };
 

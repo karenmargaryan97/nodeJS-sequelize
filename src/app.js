@@ -5,12 +5,11 @@ import expressValidator from 'express-validator';
 import cors from 'cors';
 import limiter from './configs/limiter';
 import RateLimit from 'express-rate-limit';
-import { ServiceUnavailable } from './errors';
 import passport from 'passport';
 import { UserPassport, AdminPassport } from './strategies';
-import { BAD_REQUEST_CODE } from './configs/status-codes';
 import enableModules from './modules';
 import params from './configs/params';
+import errorHandler from './middlewares/errorHandler';
 
 class Application {
     app;
@@ -20,7 +19,8 @@ class Application {
         this.app = express();
         this.initApp();
     }
-    initApp() {
+
+    async initApp() {
         this.configApp();
         this.setParams();
         this.setRouter();
@@ -62,21 +62,7 @@ class Application {
     }
 
     setErrorHandler() {
-        this.app.use(async (err, req, res, next) => {
-            if (!err.status) {
-                next(new ServiceUnavailable(err.message));
-            }
-
-            let status = err.status || BAD_REQUEST_CODE;
-
-            return res.status(status).json({
-                status: status,
-                data: null,
-                message: err.message || '',
-                errors: err.errors || null,
-                body: req.body
-            });
-        });
+        this.app.use(errorHandler);
     }
 
     enableModules() {

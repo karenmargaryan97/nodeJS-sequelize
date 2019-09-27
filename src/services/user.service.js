@@ -1,10 +1,16 @@
 import models from '../../models';
 import { BadRequest } from '../errors';
 import { INVALID_EMAIL_OR_PASSWORD } from '../configs/constants';
+import { BaseService } from "./base.service";
 
-export class UserService {
-    static async create(attributes) {
+class UserService extends BaseService {
+    constructor(model, name) {
+        super(model, name);
+        this.model = model;
+        this.name = name;
+    }
 
+    async create(attributes) {
         const data = {
             firstName: attributes.firstName,
             lastName: attributes.lastName,
@@ -12,24 +18,20 @@ export class UserService {
             password: attributes.password
         };
 
-        data.password = models.User.build().generatePassword(data.password);
+        data.password = this.model.build().generatePassword(data.password);
 
-        return await models.User.create(data);
+        return this.model.create(data);
     }
 
-    static async getByEmail(email) {
-        return await models.User.findOne({
-            where: { email }
-        });
-    }
+    async check(email, password) {
+        let user = await this.getOneByParams({ email });
 
-    static async check(email, password) {
-        let user = await this.getByEmail(email);
-
-        if (!user && !models.User.build().comparePassword(password)) {
+        if (!user && !this.model.build().comparePassword(password)) {
             throw new BadRequest(INVALID_EMAIL_OR_PASSWORD);
         }
 
         return user;
     }
 }
+
+export default new UserService(models.User, 'User');

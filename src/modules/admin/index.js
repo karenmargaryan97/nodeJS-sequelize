@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import authEndpoints from './auth/endpoints';
 import firmEndpoints from './firm/endpoints';
+import fundEndpoints from './fund/endpoints';
 
 export default class AdminModule {
     apiRouter;
@@ -23,5 +24,6 @@ export default class AdminModule {
     assignEndpoints() {
         authEndpoints(this.router);
         firmEndpoints(this.router);
+        fundEndpoints(this.router);
     }
 }

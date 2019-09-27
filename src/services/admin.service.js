@@ -1,27 +1,26 @@
 import models from '../../models';
-import { BadRequest, NotFound } from '../errors';
-import { INVALID_EMAIL_OR_PASSWORD, NOT_EXISTS } from '../configs/constants';
+import { BadRequest } from '../errors';
+import { INVALID_EMAIL_OR_PASSWORD } from '../configs/constants';
+import { BaseService } from "./base.service";
 
-export class AdminService {
-    constructor() { }
-
-    static async getByEmail(email) {
-        return await models.Admin.findOne({
-            where: { email }
-        });
+class AdminService extends BaseService {
+    constructor(model, name) {
+        super(model, name);
+        this.model = model;
+        this.name = name;
     }
 
-    static async check(email, password) {
-        let admin = await this.getByEmail(email);
+    async check(email, password) {
+        let admin = await this.getOneByParams({ email });
 
-        if (!admin && !models.Admin.build().comparePassword(password)) {
+        if (!admin && !this.model.build().comparePassword(password)) {
             throw new BadRequest(INVALID_EMAIL_OR_PASSWORD);
         }
 
         return admin;
     }
 
-    static async create(attributes) {
+    async create(attributes) {
 
         const data = {
             fullName: attributes.fullName,
@@ -30,8 +29,10 @@ export class AdminService {
             password: attributes.password
         };
 
-        data.password = models.Admin.build().generatePassword(data.password);
+        data.password = this.model.build().generatePassword(data.password);
 
-        return await models.Admin.create(data);
+        return this.model.create(data);
     }
 }
+
+export default new AdminService(models.Admin, 'Admin');

@@ -1,5 +1,6 @@
 import validator from './validator';
 import passport from './passport';
+import formDataParser from './formDataParser';
 import { ADMIN_AUTH, USER_AUTH } from '../configs/constants';
 
 export default (schemas, actionName) => {
@@ -17,6 +18,10 @@ export default (schemas, actionName) => {
         } else if (authenticationType === ADMIN_AUTH) {
             middlewares.push(passport(ADMIN_AUTH));
         }
+    }
+
+    if (schemas[actionName].parseFormData) {
+        middlewares.push(formDataParser);
     }
 
     if (schemas[actionName].validation) {

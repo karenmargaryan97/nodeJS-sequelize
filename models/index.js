@@ -11,7 +11,8 @@ const db = new Sequelize(
     params.dbPassword,
     {
         dialect: 'postgres',
-        host: 'localhost'
+        host: 'localhost',
+        logging: process.env.NODE_ENV === 'development'
     }
 );
 
@@ -22,7 +23,7 @@ const models = {
     Fund: db.import('./fund', Fund)
 };
 
-Object.keys(models).forEach((modelName) => {
+Object.keys(models).forEach(modelName => {
     if ('associate' in models[modelName]) {
         models[modelName].associate(models);
     }

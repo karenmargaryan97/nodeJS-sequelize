@@ -12,9 +12,15 @@ process.on('SIGINT', () => {
     db.sequelize.close().then(() => process.exit(0));
 });
 
-db.sequelize.sync({}).then(() => {
-    server.listen(params.apiPort, () => {
-        console.log(`Listening ${server.address().port} port. Process: ${PID}`);
-    });
+db.sequelize.authenticate()
+    .then(() => {
+        console.info('Connection has been established successfully.');
+        return db.sequelize.sync({}).then(() => {
+            server.listen(params.apiPort, () => {
+                console.info(`Listening ${server.address().port} port. Process: ${PID}`);
+            });
+        });
+    })
+    .catch(err => {
+        console.error('Database connection: error - ' + err);
 });
-

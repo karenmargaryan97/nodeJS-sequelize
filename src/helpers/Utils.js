@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import params from '../configs/params';
-import {BadRequest} from "../errors";
+import { BadRequest } from "../errors";
 
 export default class Utils {
     static signJWTToken(data, admin = false) {

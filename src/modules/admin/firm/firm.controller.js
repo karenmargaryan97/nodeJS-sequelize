@@ -1,36 +1,30 @@
-import { FirmService } from '../../../services';
+import FirmService from '../../../services/firm.service';
 import { SUCCESS_CODE } from '../../../configs/status-codes';
-import FileUtil from '../../../helpers/fileUtil';
-import {BadRequest} from "../../../errors";
+import { BadRequest } from "../../../errors";
+import { REQUIRED } from "../../../configs/constants";
 const fileType = require('file-type');
 const fs = require('fs');
 const util = require('util');
 
 export class FirmController {
     static async create(req, res, next) {
+        const payload = req.body;
+        const files = req.files;
         try {
-            let firmName, entityNumber, logo;
-            const parsedForm = await FileUtil.parseUploadForm(req);
-            const { files, fields } = parsedForm;
-
-            firmName = fields.firmName.length ? fields.firmName[0]: null;
-            entityNumber = fields.entityNumber.length ? fields.entityNumber[0]: null;
-            logo = files.files.length ? files.files[0]: null;
-
-            if (!firmName || !entityNumber || !logo) {
-                throw new BadRequest('Invalid form');
+            if (!files.length) {
+                throw new BadRequest(REQUIRED('Logo'));
             }
 
-            const logoName = `${firmName}_${entityNumber}`;
+            const logoName = `${payload.firmName}_${payload.entityNumber}`;
             const firmData = {
-                firmName,
-                entityNumber: Number(entityNumber),
+                firmName: payload.firmName,
+                entityNumber: Number(payload.entityNumber),
                 logo: logoName
             };
 
             const readFile = util.promisify(fs.readFile);
             const writeFile = util.promisify(fs.writeFile);
-            const file = await readFile(logo.path);
+            const file = await readFile(files[0].path);
 
             const type = fileType(file);
             await writeFile(`uploads/${logoName}.${type.ext}`, file);
@@ -45,26 +39,20 @@ export class FirmController {
 
     static async edit(req, res, next) {
         const { id } = req.params;
+        const payload = req.body;
+        const files = req.files;
         try {
             const firm = await FirmService.getById(id);
-            let firmName, entityNumber, logo, data = {};
-            const parsedForm = await FileUtil.parseUploadForm(req);
 
-            const { files, fields } = parsedForm;
+            const data = {
+                firmName: payload.firmName,
+                entityNumber: payload.entityNumber
+            };
 
-            firmName = fields.firmName[0];
-            entityNumber = fields.entityNumber[0];
-            if (files.logo && files.logo.length) {
-                logo = files.logo[0];
-            }
-
-            data.firmName = firmName;
-            data.entityNumber = entityNumber;
-
-            if (logo) {
+            if (files.length) {
                 const readFile = util.promisify(fs.readFile);
                 const writeFile = util.promisify(fs.writeFile);
-                let buffer = await readFile(logo.path);
+                let buffer = await readFile(files[0].path);
 
                 let logoName = `${firm.firmName}_${firm.entityNumber}.png`;
                 data.logo = logoName;
@@ -95,7 +83,7 @@ export class FirmController {
     static async getOne(req, res, next) {
         const { id } = req.params;
         try {
-            const firm = await FirmService.getById(id);
+            const firm = await FirmService.getById(id, ['funds']);
 
             return res.status(SUCCESS_CODE).json(firm);
         } catch(err) {

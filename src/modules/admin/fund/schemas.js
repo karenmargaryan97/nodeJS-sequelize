@@ -1,15 +1,14 @@
-import {ADMIN_AUTH, REQUIRED} from '../../../configs/constants';
+import { ADMIN_AUTH, REQUIRED } from '../../../configs/constants';
 
 export default {
-    saveFirm: {
-        parseFormData: true,
+    saveFund: {
         authentication: true,
         authenticationType: ADMIN_AUTH,
         validation: {
-            firmName: {
+            legalName: {
                 in: 'body',
                 notEmpty: {
-                    errorMessage: REQUIRED('firmName')
+                    errorMessage: REQUIRED('legalName')
                 }
             },
             entityNumber: {
@@ -20,7 +19,7 @@ export default {
             }
         }
     },
-    firm: {
+    fund: {
         authentication: true,
         authenticationType: ADMIN_AUTH
     }
