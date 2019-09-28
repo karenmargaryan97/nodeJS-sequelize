@@ -2,7 +2,7 @@ export default (sequelize, DataTypes) => {
     let Firm = sequelize.define('firms', {
         firmName: {
             type: DataTypes.STRING,
-            unique: true
+            unique: true,
         },
         entityNumber: {
             type: DataTypes.STRING,
@@ -16,12 +16,17 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
+    }, {
+        // generates deletedAt field
+        paranoid: true
     });
 
     Firm.associate = (models) => {
         Firm.hasMany(models.Fund, {
             foreignKey: 'firm_id',
-            as: 'funds'
+            as: 'funds',
+            onDelete: 'cascade',
+            hooks: false
         });
     };
 

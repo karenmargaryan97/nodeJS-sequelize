@@ -12,10 +12,12 @@ process.on('SIGINT', () => {
     db.sequelize.close().then(() => process.exit(0));
 });
 
+const force = process.env.NODE_ENV === 'development' && process.argv[2] && process.argv[2] === 'force';
+
 db.sequelize.authenticate()
     .then(() => {
         console.info('Connection has been established successfully.');
-        return db.sequelize.sync({}).then(() => {
+        return db.sequelize.sync({ force }).then(() => {
             server.listen(params.apiPort, () => {
                 console.info(`Listening ${server.address().port} port. Process: ${PID}`);
             });

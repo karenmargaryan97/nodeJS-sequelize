@@ -43,7 +43,7 @@ export class FundController {
     static async getOne(req, res, next) {
         const { id } = req.params;
         try {
-            const fund = await FundService.getById(id, ['firm']);
+            const fund = await FundService.getById(id, [], ['firm']);
 
             return res.status(SUCCESS_CODE).json(fund);
         } catch(err) {

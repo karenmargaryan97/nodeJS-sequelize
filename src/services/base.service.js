@@ -7,18 +7,28 @@ export class BaseService {
         this.name = name;
     }
 
-    async getOneByParams(params = null) {
+    async getOneByParams(params = null, attributes = []) {
         if (params) {
             return this.model.findOne({
-                where: params
+                where: params,
+                attributes
             });
         }
 
         return this.model.findOne();
     }
 
-    async getById(id, include = []) {
-        const result = await this.model.findOne({ where: { id }, include });
+    async getById(id, attributes = [], include = []) {
+        const options = {};
+        if (attributes.length) {
+            options.attributes = attributes;
+        }
+
+        if (include.length) {
+            options.include = include;
+        }
+
+        const result = await this.model.findByPk(id, options);
 
         if (!result) {
             throw new NotFound(NOT_EXISTS(this.name));

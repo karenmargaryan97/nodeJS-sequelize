@@ -11,7 +11,7 @@ class AdminService extends BaseService {
     }
 
     async check(email, password) {
-        let admin = await this.getOneByParams({ email });
+        let admin = await this.getOneByParams({ email }, ['id', 'fullName', 'email', 'role']);
 
         if (!admin && !this.model.build().comparePassword(password)) {
             throw new BadRequest(INVALID_EMAIL_OR_PASSWORD);

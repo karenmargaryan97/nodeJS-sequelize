@@ -8,7 +8,10 @@ export class AuthController {
     static async signup(req, res, next) {
         const payload = req.body;
         try {
-            let admin = await AdminService.getOneByParams({ email: payload.email });
+            let admin = await AdminService.getOneByParams(
+                { email: payload.email },
+                ['id', 'email', 'fullName', 'role']
+            );
 
             if (admin) {
                 throw new BadRequest('Email already used');
@@ -41,12 +44,7 @@ export class AuthController {
 
             return res.status(SUCCESS_CODE).json({
                 access_token: tokenInfo.token,
-                admin: {
-                    id: admin.id,
-                    role: admin.role,
-                    fullName: admin.fullName,
-                    email: admin.email
-                }
+                admin
             })
         } catch(err) {
             next(err);
@@ -58,9 +56,7 @@ export class AuthController {
             req.logout();
 
             return res.status(SUCCESS_CODE)
-                .json({
-                    success: true
-                });
+                .json({ success: true });
         } catch (err) {
             next(err);
         }

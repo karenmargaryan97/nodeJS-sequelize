@@ -4,6 +4,7 @@ import User from './user';
 import Admin from './admin';
 import Firm from './firm';
 import Fund from './fund';
+import Account from './account';
 
 const db = new Sequelize(
     params.database,
@@ -11,8 +12,7 @@ const db = new Sequelize(
     params.dbPassword,
     {
         dialect: 'postgres',
-        host: 'localhost',
-        logging: process.env.NODE_ENV === 'development'
+        host: 'localhost'
     }
 );
 
@@ -20,7 +20,8 @@ const models = {
     Admin: db.import('./admin', Admin),
     User: db.import('./user', User),
     Firm: db.import('./firm', Firm),
-    Fund: db.import('./fund', Fund)
+    Fund: db.import('./fund', Fund),
+    Account: db.import('./account', Account)
 };
 
 Object.keys(models).forEach(modelName => {

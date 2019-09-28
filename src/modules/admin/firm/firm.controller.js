@@ -56,7 +56,7 @@ export class FirmController {
 
                 let logoName = `${firm.firmName}_${firm.entityNumber}.png`;
                 data.logo = logoName;
-                await writeFile(`$uploads/${logoName}`, buffer);
+                await writeFile(`uploads/${logoName}`, buffer);
             }
 
             let updatedFirm = await FirmService.update(firm.id, data);
@@ -83,7 +83,7 @@ export class FirmController {
     static async getOne(req, res, next) {
         const { id } = req.params;
         try {
-            const firm = await FirmService.getById(id, ['funds']);
+            const firm = await FirmService.getById(id, [], ['funds']);
 
             return res.status(SUCCESS_CODE).json(firm);
         } catch(err) {

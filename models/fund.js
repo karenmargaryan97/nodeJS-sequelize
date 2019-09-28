@@ -16,6 +16,9 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
+    }, {
+        indexes: [{ fields: ['firm_id'], unique: false }],
+        paranoid: true
     });
 
     Fund.associate = (models) => {
@@ -23,6 +26,11 @@ export default (sequelize, DataTypes) => {
             foreignKey: 'firm_id',
             targetKey: 'id',
             as: 'firm'
+        });
+        Fund.hasMany(models.Account, {
+            foreignKey: 'account_id',
+            targetKey: 'id',
+            as: 'accounts'
         });
     };
 
