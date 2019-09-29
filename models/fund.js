@@ -1,9 +1,5 @@
 export default (sequelize, DataTypes) => {
     let Fund = sequelize.define('funds', {
-        firm_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
         legalName: {
             type: DataTypes.STRING,
             unique: true
@@ -17,19 +13,16 @@ export default (sequelize, DataTypes) => {
             defaultValue: false
         }
     }, {
-        indexes: [{ fields: ['firm_id'], unique: false }],
+        indexes: [{ fields: ['firmId'], unique: false }],
         paranoid: true
     });
 
     Fund.associate = (models) => {
         Fund.belongsTo(models.Firm, {
-            foreignKey: 'firm_id',
-            targetKey: 'id',
-            as: 'firm'
+            as: 'firm',
+            foreignKey: 'firmId'
         });
         Fund.hasMany(models.Account, {
-            foreignKey: 'account_id',
-            targetKey: 'id',
             as: 'accounts'
         });
     };

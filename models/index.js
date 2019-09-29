@@ -5,6 +5,10 @@ import Admin from './admin';
 import Firm from './firm';
 import Fund from './fund';
 import Account from './account';
+import { createNamespace } from 'continuation-local-storage';
+
+const namespace = createNamespace('cls_space');
+Sequelize.useCLS(namespace);
 
 const db = new Sequelize(
     params.database,

@@ -11,6 +11,12 @@ export default {
                     errorMessage: REQUIRED('legalName')
                 }
             },
+            firmId: {
+                in: 'body',
+                notEmpty: {
+                    errorMessage: REQUIRED('firmId')
+                }
+            },
             entityNumber: {
                 in: 'body',
                 notEmpty: {

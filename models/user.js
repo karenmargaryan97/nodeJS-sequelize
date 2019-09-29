@@ -2,14 +2,6 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {
     let User = sequelize.define('users', {
-        account_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'accounts',
-                key: 'id'
-            }
-        },
         firstName: {
             type: DataTypes.STRING,
             allowNull: false
@@ -30,10 +22,15 @@ export default (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING
         }
+    }, {
+        indexes: [{ fields: ['accountId'], unique: false }]
     });
 
     User.associate = (models) => {
-        User.belongsTo(models.Account);
+        User.belongsTo(models.Account, {
+            as: 'account',
+            foreignKey: 'accountId'
+        });
     };
 
     User.prototype.generatePassword = function (pw) {

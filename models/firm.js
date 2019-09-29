@@ -23,8 +23,6 @@ export default (sequelize, DataTypes) => {
 
     Firm.associate = (models) => {
         Firm.hasMany(models.Fund, {
-            foreignKey: 'firm_id',
-            as: 'funds',
             onDelete: 'cascade',
             hooks: false
         });
