@@ -1,7 +1,7 @@
 import models from '../../db';
 import { BaseService } from "./base.service";
 
-class FirmService extends BaseService {
+class AccountService extends BaseService {
     constructor(model, name) {
         super(model, name);
         this.model = model;
@@ -13,4 +13,4 @@ class FirmService extends BaseService {
     }
 }
 
-export default new FirmService(models.Firm, 'Firm');
+export default new AccountService(models.Account, 'Account');

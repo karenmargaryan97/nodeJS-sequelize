@@ -7,10 +7,6 @@ export default (sequelize, DataTypes) => {
         entityNumber: {
             type: DataTypes.STRING,
             unique: true
-        },
-        isDeleted: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
         }
     }, {
         indexes: [{ fields: ['firmId'], unique: false }],
@@ -20,7 +16,8 @@ export default (sequelize, DataTypes) => {
     Fund.associate = (models) => {
         Fund.belongsTo(models.Firm, {
             as: 'firm',
-            foreignKey: 'firmId'
+            foreignKey: 'firmId',
+            onDelete: 'CASCADE'
         });
         Fund.hasMany(models.Account, {
             as: 'accounts'

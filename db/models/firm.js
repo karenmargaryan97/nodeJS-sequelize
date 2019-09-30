@@ -11,19 +11,14 @@ export default (sequelize, DataTypes) => {
         logo: {
             type: DataTypes.STRING,
             unique: true
-        },
-        isDeleted: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
         }
     }, {
-        // generates deletedAt field
         paranoid: true
     });
 
     Firm.associate = (models) => {
         Firm.hasMany(models.Fund, {
-            onDelete: 'cascade',
+            onDelete: 'CASCADE',
             hooks: false
         });
     };

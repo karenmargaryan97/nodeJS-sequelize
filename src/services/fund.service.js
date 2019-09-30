@@ -1,4 +1,4 @@
-import models from '../../models';
+import models from '../../db';
 import { BaseService } from "./base.service";
 
 class FundService extends BaseService {

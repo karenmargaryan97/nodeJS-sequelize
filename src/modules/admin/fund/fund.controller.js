@@ -1,5 +1,5 @@
 import FundService from '../../../services/fund.service';
-import { SUCCESS_CODE } from '../../../configs/status-codes';
+import { CREATED_CODE, NO_CONTENT_CODE, SUCCESS_CODE } from '../../../configs/status-codes';
 
 export class FundController {
     static async create(req, res, next) {
@@ -7,7 +7,7 @@ export class FundController {
         try {
             const fund = await FundService.create(payload);
 
-            return res.status(SUCCESS_CODE).json(fund);
+            return res.status(CREATED_CODE).json(fund);
         } catch(err) {
             next(err);
         }
@@ -19,9 +19,9 @@ export class FundController {
         try {
             const fund = await FundService.getById(id);
 
-            let updatedFirm = await FundService.update(fund.id, { legalName, entityNumber });
+            let updatedFund = await FundService.update(fund.id, { legalName, entityNumber });
 
-            return res.status(SUCCESS_CODE).json(updatedFirm);
+            return res.status(SUCCESS_CODE).json(updatedFund);
         } catch (e) {
             next(e);
         }
@@ -30,11 +30,11 @@ export class FundController {
     static async delete(req, res, next) {
         const { id } = req.params;
         try {
-            const firm = await FundService.getById(id);
+            const fund = await FundService.getById(id);
 
-            await FundService.delete(firm.id);
+            await FundService.delete(fund.id);
 
-            return res.status(SUCCESS_CODE).json({ success: true });
+            return res.status(NO_CONTENT_CODE).json({ success: true });
         } catch (e) {
             next(e);
         }

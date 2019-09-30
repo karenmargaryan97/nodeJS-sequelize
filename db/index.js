@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize';
 import params from '../src/configs/params';
-import User from './user';
-import Admin from './admin';
-import Firm from './firm';
-import Fund from './fund';
-import Account from './account';
+import User from './models/user';
+import Admin from './models/admin';
+import Firm from './models/firm';
+import Fund from './models/fund';
+import Account from './models/account';
 import { createNamespace } from 'continuation-local-storage';
 
 const namespace = createNamespace('cls_space');

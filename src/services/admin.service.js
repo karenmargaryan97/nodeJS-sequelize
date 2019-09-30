@@ -1,4 +1,4 @@
-import models from '../../models';
+import models from '../../db';
 import { BadRequest } from '../errors';
 import { INVALID_EMAIL_OR_PASSWORD } from '../configs/constants';
 import { BaseService } from "./base.service";

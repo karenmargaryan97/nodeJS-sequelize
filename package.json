@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "NODE_ENV=development nodemon -L",
-    "start:prod": "NODE_ENV=production babel-node /server.js",
-    "start": "npm run start:prod"
+    "dev": "NODE_ENV=development nodemon -L",
+    "prod": "NODE_ENV=production babel-node /server.js",
+    "start": "npm run prod"
   },
   "author": "",
   "license": "ISC",
@@ -54,6 +54,8 @@
     "babel-runtime": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "continuation-local-storage": "^3.2.1",
     "cors": "^2.8.5",
     "dotenv": "8.1.0",
@@ -63,13 +65,15 @@
     "express-validator": "^5.3.0",
     "file-type": "12.3.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^6.2.1",
     "morgan": "^1.9.1",
     "multiparty": "4.2.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pg": "^7.12.1",
     "pg-hstore": "2.3.3",
-    "sequelize": "5.19.0"
+    "sequelize": "5.19.0",
+    "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.2"

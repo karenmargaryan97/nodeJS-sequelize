@@ -1,4 +1,4 @@
-import models from '../../models';
+import models from '../../db';
 import { NOT_EXISTS } from '../configs/constants';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthError } from '../errors';

@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "pguser",
+    "password": "pgpassword",
+    "database": "servc",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "pguser",
+    "password": "pgpassword",
+    "database": "servc_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "produser",
+    "password": "prodpassword",
+    "database": "servc_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}

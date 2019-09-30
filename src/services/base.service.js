@@ -50,12 +50,23 @@ export class BaseService {
     }
 
     async delete(id, force = false) {
-        return this.model.destroy({ where: { id }, force });
+        return this.model.destroy({
+            where: { id },
+            force
+        });
     }
 
     async update(id, attributes) {
-        return this.model.update(attributes, {
-            where: { id }
+        const  updatedModel = await this.model.update(attributes, {
+            where: { id },
+            returning: true,
+            plain: true
         });
+
+        if (updatedModel.length > 1 && updatedModel[1]) {
+            return updatedModel[1];
+        }
+
+        return null;
     }
 }

@@ -7,10 +7,6 @@ export default (sequelize, DataTypes) => {
         entityNumber: {
             type: DataTypes.STRING,
             unique: true
-        },
-        isDeleted: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
         }
     }, {
         indexes: [{ fields: ['fundId'], unique: false }],
@@ -21,11 +17,10 @@ export default (sequelize, DataTypes) => {
         Account.belongsTo(models.Fund, {
             as: 'fund',
             foreignKey: 'fundId',
-            onDelete: 'cascade'
+            onDelete: 'CASCADE'
         });
         Account.hasMany(models.User, {
-            as: 'users',
-            onDelete: 'cascade'
+            as: 'users'
         });
     };
 
